@@ -1,0 +1,94 @@
+<template>
+<div style="margin:64px">
+        <vue-slide-bar v-model="slider.value"
+                  :data="slider.data"
+                  :range="slider.range"
+                  :lineHeight="16"
+                  @callbackRange="callbackRange">
+          <template slot="tooltip">
+              <span class="vue-slide-bar-tooltip">
+                {{ getLabel() }}
+              </span>
+          </template>
+        </vue-slide-bar>
+</div>
+</template>
+
+<script>
+import VueSlideBar from 'vue-slide-bar'
+
+const range = (start, end, step = 1) => {
+  let output = [];
+  if (typeof end === 'undefined') {
+    end = start;
+    start = 0;
+  }
+  for (let i = start; i < end; i += step) {
+    output.push(i);
+  }
+  return output;
+};
+
+const timeString = (sliderValue) => {
+  const hours = Math.floor(sliderValue / 60);
+  const minutes = sliderValue - hours * 60;
+  const hourSuff = (hours === 1 ? "hr" : "hrs")
+  const minSuff = (minutes === 1 ? "min" : "mins")
+
+  if (hours === 0)
+    return `${minutes} ${minSuff}`
+  if(minutes === 0)
+    return `${hours} ${hourSuff}`
+
+  return `${hours} ${hourSuff} ${minutes} ${minSuff}`
+}
+
+  export default {
+      components: {
+        VueSlideBar
+      },
+      data () {
+        const valueList = range(0, 245, 5);
+        const labelList = range(0, 245, 5).map(v => {
+          if (v % 30 === 0)
+              return { label: timeString(v) };
+
+          return { label: timeString(v), isHide: true };
+        });
+
+        return {
+          slider: {
+          value: 45,
+          data: valueList,
+          range: labelList,
+        }
+      }
+      },
+      methods: {
+        getLabel() {
+          return timeString(this.slider.value);
+        },
+        callbackRange (val) {
+          
+        }
+      }
+    }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>

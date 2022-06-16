@@ -1,0 +1,23 @@
+@import url("https://use.fontawesome.com/releases/v5.11.0/css/all.css");
+
+.button {
+  border-radius: 5px !important;
+}
+
+/*
+  CSS definition for the icon
+  If the open status from the clicked element equal to true, 
+  then the open class is connected and the icon rotates
+  90 deg to the bottom, otherwise back to the default position.
+*/
+.dropdown span {
+  position: absolute;
+  top: 30px;
+  left: 16px;
+  font-size: 1.5rem;
+  color: #e3e6ed;
+  transition: transform .25s ease-in-out;
+  &.open {
+    transform: rotateZ(90deg);
+  }
+}
